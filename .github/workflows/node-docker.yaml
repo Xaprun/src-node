@@ -28,7 +28,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/aj-node-redisapp:1.0-green
+        tags: ${{ secrets.DOCKER_USERNAME }}/aj-node-redisapp:1.1-yellow
 
     - name: Log out from Docker Hub
       run: docker logout
