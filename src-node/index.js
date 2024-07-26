@@ -3,6 +3,8 @@ const Redis = require('ioredis');
 const envRouter = require('./env');
 
 const app = express();
+app.use(express.json()); // Obsługa JSON
+
 const redis = new Redis({
   host: 'redis-container', // nazwa kontenera Redis
   port: 6379
@@ -60,7 +62,7 @@ app.get('/', async (req, res) => {
       <html>
       <head>
         <style>
-          body { background-color: green; color: white; font-family: Arial, sans-serif; }
+          body { background-color: yellow; color: black; font-family: Arial, sans-serif; }
         </style>
       </head>
       <body>
