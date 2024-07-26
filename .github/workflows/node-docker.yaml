@@ -28,6 +28,10 @@ jobs:
       with:
         context: .
         push: true
-        tags: xaprun/aj-node-helloapp:1.0
+        tags: ${{ secrets.DOCKER_USERNAME }}/aj-node-helloapp:1.0
+
+    - name: Log out from Docker Hub
+      run: docker logout
+
 
 
