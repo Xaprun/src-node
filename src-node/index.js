@@ -59,7 +59,7 @@ app.get('/', async (req, res) => {
       <html>
       <head>
         <style>
-          body { background-color: green; color: white; font-family: Arial, sans-serif; }
+          body { background-color: yellow; color: black; font-family: Arial, sans-serif; }
         </style>
       </head>
       <body>
