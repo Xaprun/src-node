@@ -5,13 +5,16 @@ FROM node:14
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+# COPY src-node/package*.json ./
 
 # Install dependencies
-RUN npm install
+# RUN npm install
 
 # Copy the rest of the application code
 COPY src-node/ .
+
+# Install dependencies
+RUN npm install
 
 # Expose the port the app runs on
 EXPOSE 8080
