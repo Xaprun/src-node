@@ -1,45 +1,33 @@
 const express = require('express');
-const Redis = require('ioredis');
+const mongoose = require('mongoose');
 const envRouter = require('./env');
 
 const app = express();
 app.use(express.json()); // Obsługa JSON
 
-const redis = new Redis({
-  host: 'redis-container', // nazwa kontenera Redis
-  port: 6379
+// Połączenie z MongoDB
+mongoose.connect('mongodb://mongo-container:27017/mydb', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
-app.use('/env', envRouter);
+const envSchema = new mongoose.Schema({
+  hostname: String,
+  address: String,
+  platform: String,
+  arch: String,
+  cpus: Number,
+  totalMemory: Number,
+  freeMemory: Number
+});
+
+const Env = mongoose.model('Env', envSchema);
+
+app.use('/env', envRouter(Env));
 
 app.get('/', async (req, res) => {
   try {
-    const keys = await redis.keys('*');
-    const data = await Promise.all(keys.map(async (key) => {
-      const type = await redis.type(key);
-      let value;
-      switch (type) {
-        case 'string':
-          value = await redis.get(key);
-          break;
-        case 'list':
-          value = await redis.lrange(key, 0, -1);
-          break;
-        case 'set':
-          value = await redis.smembers(key);
-          break;
-        case 'hash':
-          value = await redis.hgetall(key);
-          break;
-        case 'zset':
-          value = await redis.zrange(key, 0, -1);
-          break;
-        default:
-          value = '(unknown type)';
-      }
-      return { key, type, value };
-    }));
-
+    const envs = await Env.find();
     res.send(`
       <!DOCTYPE html>
       <html>
@@ -49,9 +37,9 @@ app.get('/', async (req, res) => {
         </style>
       </head>
       <body>
-        <h1>Redis Data</h1>
+        <h1>Environment Data</h1>
         <ul>
-          ${data.map(item => `<li>${item.key} (Type: ${item.type}): ${JSON.stringify(item.value)}</li>`).join('')}
+          ${envs.map(env => `<li>${env.hostname} - ${env.address} - ${env.platform} - ${env.arch} - ${env.cpus} - ${env.totalMemory} - ${env.freeMemory}</li>`).join('')}
         </ul>
       </body>
       </html>
@@ -62,13 +50,13 @@ app.get('/', async (req, res) => {
       <html>
       <head>
         <style>
-          body { background-color: yellow; color: black; font-family: Arial, sans-serif; }
+          body { background-color: green; color: white; font-family: Arial, sans-serif; }
         </style>
       </head>
       <body>
-        <h1>Redis Data</h1>
+        <h1>Environment Data</h1>
         <ul>
-          <li>Could not connect to Redis: ${error.message}</li>
+          <li>Could not connect to MongoDB: ${error.message}</li>
         </ul>
       </body>
       </html>
