@@ -8,7 +8,8 @@ app.use(express.json()); // Obsługa JSON
 // Połączenie z MongoDB
 mongoose.connect('mongodb://root:example@mongo-container:27017/mydb', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  authSource: "admin"
 });
 
 const envSchema = new mongoose.Schema({
