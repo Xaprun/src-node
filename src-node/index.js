@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json()); // Obsługa JSON
 
 // Połączenie z MongoDB
-mongoose.connect('mongodb://mongo-container:27017/mydb', {
+mongoose.connect('mongodb://root:example@mongo-container:27017/mydb', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
