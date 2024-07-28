@@ -5,11 +5,12 @@ const envRouter = require('./env');
 const app = express();
 app.use(express.json()); // Obsługa JSON
 
-// Połączenie z MongoDB
-mongoose.connect('mongodb://root:example@mongo-container:27017/mydb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  authSource: "admin"
+// Połączenie z MongoDB z autoryzacją
+const mongoUri = process.env.MONGO_URL;
+mongoose.connect(mongoUri).then(() => {
+  console.log('Connected to MongoDB');
+}).catch(err => {
+  console.error('Error connecting to MongoDB', err);
 });
 
 const envSchema = new mongoose.Schema({
@@ -34,7 +35,7 @@ app.get('/', async (req, res) => {
       <html>
       <head>
         <style>
-          body { background-color: purple; color: white; font-family: Arial, sans-serif; }
+          body { background-color: green; color: white; font-family: Arial, sans-serif; }
         </style>
       </head>
       <body>
