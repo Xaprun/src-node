@@ -14,7 +14,6 @@ mongoose.connect('mongodb://root:example@mongo-0.mongo-service:27017', {
   console.error('Error connecting to MongoDB', err);
 });
 const mongoUri = process.env.MONGO_URL;
-console.log('log MONGO_URL:', MONGO_URL);
 console.log('log mongoUri:', mongoUri);
 
 // mongoose.connect(mongoUri).then(() => {
