@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json()); // Obsługa JSON
 
 // Połączenie z MongoDB z autoryzacją
-mongoose.connect('mongodb://root:example@mongo-0.mongo-service:27017', {
+mongoose.connect(mongoUri, {
   authSource: "admin"
 }).then(() => {
   console.log('Connected to MongoDB');
