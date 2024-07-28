@@ -14,8 +14,8 @@ mongoose.connect('mongodb://root:example@mongo-0.mongo-service:27017', {
   console.error('Error connecting to MongoDB', err);
 });
 const mongoUri = process.env.MONGO_URL;
-print("aj log MONGO_URL:" + MONGO_URL);
-print("aj log mongoUri:" + mongoUri);
+console.log('log MONGO_URL:', MONGO_URL);
+console.log('log mongoUri:', mongoUri);
 
 // mongoose.connect(mongoUri).then(() => {
 //   console.log('Connected to MongoDB');
